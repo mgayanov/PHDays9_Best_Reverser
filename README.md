@@ -87,3 +87,7 @@ def sub_5EC():
     offset += 1
   
 ```
+
+Итак функция sub_5EC готова
+
+## sub_E3E ##
