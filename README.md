@@ -90,5 +90,27 @@ def sub_5EC():
 Значимый кусок кода:
 
 <p align="center">
-    <img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/sub_E3E_1.png">
+<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/sub_E3E.png">
 </p>
+
+Расшифруем
+
+```c
+
+d0 = *(a2 + 0x34)
+*(a2 + 0x34) = *(a2 + 0x34) + 1
+
+a0 = d0
+*(a0) = d2
+d0 = *(a2 + 0x24)
+
+d2 = d0 ^ d2
+d2 = d2 & 0xFF
+d2 = d2 + d2
+
+d0 = d0 >> 8
+a0 = *(0x00011FC0)
+d2 = *(a0 + d2)
+d2 = d0 ^ d2
+*(a2 + 0x24) = d2
+```
