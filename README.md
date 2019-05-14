@@ -91,3 +91,14 @@ def sub_5EC():
 Итак функция sub_5EC готова
 
 ## sub_E3E ##
+
+Значимый кусок кода:
+
+```asm
+move.l 0x2c(a2), d0
+move.l       d0, d1
+addq.l        1, d1
+move.l       d1, 0x2c(a2)
+movea.l      d0, a0
+move.b     (a0), d0
+```
