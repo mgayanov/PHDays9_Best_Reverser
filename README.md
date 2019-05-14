@@ -90,7 +90,7 @@ def sub_5EC():
 Значимый кусок кода:
 
 <p align="center">
-<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/sub_E3E.png">
+<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/sub_E3E_1.png">
 </p>
 
 Расшифруем
