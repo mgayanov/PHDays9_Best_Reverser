@@ -4,16 +4,11 @@
 
 Значимый кусок кода:
 
-```asm
-move.l 0x2c(a2), d0
-move.l       d0, d1
-addq.l        1, d1
-move.l       d1, 0x2c(a2)
-movea.l      d0, a0
-move.b     (a0), d0
-```
+<p align="center">
+<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/sub_5EC.png">
+</p>
 
-где 0x2c(a2) всегда 0x00FF1D74
+где 0x2c(a2) **всегда 0x00FF1D74**
 
 Этот кусок можно переписать так на псевдокоде:
 
@@ -93,6 +88,7 @@ def sub_5EC():
 ## sub_E3E ##
 
 Значимый кусок кода:
+
 <p align="center">
 <img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/sub_E3E.png">
 </p>
