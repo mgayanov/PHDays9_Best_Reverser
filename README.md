@@ -93,12 +93,6 @@ def sub_5EC():
 ## sub_E3E ##
 
 Значимый кусок кода:
-
-```asm
-move.l 0x2c(a2), d0
-move.l       d0, d1
-addq.l        1, d1
-move.l       d1, 0x2c(a2)
-movea.l      d0, a0
-move.b     (a0), d0
-```
+<p align="center">
+<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/sub_E3E.png">
+</p>
