@@ -144,9 +144,9 @@ def sub_E3E(prev_xored, d2, d2_storage):
 	def calc_offset():
 		return 2 * ((prev_xored^d2) & 0xff)
         
-    d2_storage.append(d2)
+    	d2_storage.append(d2)
     
-    offset = calc_offset()
+    	offset = calc_offset()
 
 	with open("dump_00011FC0", 'rb') as f:
 		dump_00011FC0_4096b = f.read()
