@@ -212,5 +212,9 @@ def sub_E3E(prev_sub_E3E_xored, d2, d2_storage):
 
 dump_00011FC0 - это просто файл, куда я сохранил 4096 байт [0x00011FC0:00011FC0+4096]
 
+## Активность около 1FC4 ##
 
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/1FC4.png">
+</p>
 
