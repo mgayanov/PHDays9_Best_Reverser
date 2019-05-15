@@ -24,6 +24,8 @@
 Запустим такой скрипт:
 
 ```c
+#include <idc.idc>
+
 static main()
 {
 	auto pc_val, d4_val, counter=0;
