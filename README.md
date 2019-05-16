@@ -424,3 +424,104 @@ print(result)
 Так как предварительный хэш = process_key(first_4b) ^ process_key(second_4b), то найти нужно только
 first_4b, потому что second_4b = first_4b ^ 0xFEDC
 
+Единственное, что ограничивает, это то, что байты должны соответствовать символам.
+
+Алгоритм такой:
+
+```python
+
+def encode(key_s):
+
+	def make(b):
+		r = 0
+
+		#numbers -.
+		if b <= 0x39:
+			r = b - 0x30
+		#Letter case or @
+		else:
+			#@ABCDEF
+			if b <= 0x46:
+				r = b - 0x37
+
+			else:
+				#WXYZ
+				if b >= 0x57:
+					r = b - 0x57
+				#GHIJKLMNOPQRSTUV
+				else:
+					r = 0xff - (0x57-b) + 1 #a9+b
+
+		return r
+
+	key_b = bytearray(key_s, encoding="ascii")
+
+	codes = [make(b) for b in key_b]
+
+	part0 = (codes[0] & 0xff) << 0xc
+
+	part1 = (codes[1] << 0x8) & 0xf00
+
+	part2 = (codes[2] << 0x4) & 0xf0
+
+	r = (part0 | part1) & 0xffff
+
+	r = (r | part2) & 0xffff
+
+	r = (r | (codes[3] & 0xf))
+
+	return r
+
+def decode(h):
+
+	def a(b):
+		if b <= 0x9:
+			return b + 0x30
+
+		if b <= 0xF:
+			return b + 0x37
+
+		if b >= 0x0:
+			return b + 0x57
+
+		return b - 0xa9
+
+	p0 = a(h >> 12)
+
+	p1 = a((h & 0xfff) >> 8)
+
+	p2 = a((h & 0xff) >> 4)
+
+	p3 = a(h & 0xf)
+
+	result = [chr(p0), chr(p1), chr(p2), chr(p3)]
+
+	return "".join(result)
+	
+#Найдем все пары
+def find_pairs():
+	pairs = []
+
+	for i in range(0xFFFF+1):
+		pair = (i, i ^ 0xFEDC)
+		pairs.append(pair)
+
+	return pairs
+	
+pairs = find_pairs()
+
+#Найдем только правильные
+for pair in pairs:
+	p0_s = decode(pair[0])
+	p1_s = decode(pair[1])
+
+	p0_b = encode(p0_s)
+	p1_b = encode(p1_s)
+	
+	#Я не уверен в функции декодирования, поэтому этот шаг необходим
+	if p0_b == pair[0] and p1_b == pair[1]:
+		print(p0_s, p1_s)
+
+```
+
+Вариантов куча. Я выберу "FE3A00E6".
