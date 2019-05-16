@@ -308,9 +308,9 @@ def sub_5EC_gen():
 		offset += 1
 
 
-def sub_E3E(prev_sub_E3E_xored, d2, d2_storage):
+def sub_E3E(prev_sub_E3E_result, d2, d2_storage):
 	def calc_offset():
-		return 2 * ((prev_sub_E3E_xored ^ d2) & 0xff)
+		return 2 * ((prev_sub_E3E_result ^ d2) & 0xff)
 
 	d2_storage.append(d2)
 
@@ -322,9 +322,9 @@ def sub_E3E(prev_sub_E3E_xored, d2, d2_storage):
 	some = dump_00011FC0_4096b[offset:offset + 2]
 	some = int.from_bytes(some, byteorder="big")
 
-	prev_sub_E3E_xored = prev_sub_E3E_xored >> 8
+	prev_sub_E3E_result = prev_sub_E3E_result >> 8
 
-	return prev_sub_E3E_xored ^ some
+	return prev_sub_E3E_result ^ some
 
 
 def transform_key_hash(key_hash_p1):
