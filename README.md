@@ -211,6 +211,13 @@ static main()
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/read_from_0d46_3.png">
 </p>
 
+Неизвестно какие из них интересны. Это тупик.
+
+Вернемся в начало.
+
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/result_branches.png">
+</p>
 
 # Первый важный цикл loc_1F94 #
 
