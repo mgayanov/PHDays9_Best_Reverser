@@ -10,6 +10,8 @@
 
 А найдем не только эту, но и рядом остальные служебные строки: "Wrong key! Try again…" и "YOU ARE THE BEST REVERSER!".
 
+Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG поставил я.
+
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_len.png">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_key.png">
