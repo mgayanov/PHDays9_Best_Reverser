@@ -39,6 +39,13 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/result_branches.png">
 </p>
 
+Видим, что все возможные результаты нашлись в одном месте.
+Но давайте узнаем, откуда передается управление в этот блок.
+Не будет ставить брейки, просто наведем курсор на стрелку, идущую к блоку.
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/checklen_loc.png">
+</p>
+
 
 # Первый важный цикл loc_1F94 #
 
