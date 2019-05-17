@@ -537,3 +537,36 @@ d2 - (длина почты-1) <<8
 d3 - сумма байтов почты
 
 Критерий корректности: половина_ключа_1^d2=половина_ключа_2^d3
+
+```python
+def get_second_half(email):
+
+	from random import randint
+
+	def get_koeff():
+		k1 = sum([ord(c) for c in email])
+		k2 = (len(email) - 1) << 8
+
+		return k1, k2
+
+	def get_pairs(k1, k2):
+		pairs = []
+
+		for a in range(0xFFFF+1):
+			pair = (a, (a^k1)^k2)
+			pairs.append(pair)
+
+		return pairs
+
+	k1, k2 = get_koeff()
+
+	pairs = get_pairs(k1, k2)
+
+	pair = pairs[randint(0, len(pairs))]
+
+	p0 = hex(pair[0])[2:]
+	p1 = hex(pair[1])[2:]
+
+	return p0 + p1
+
+```
