@@ -93,16 +93,19 @@
 Саму функцию рассматривать я не буду, а сразу напишу ее на питоне.
 Она делает простые вещи, но ее описание со скринами займет много места.
 
+Самое важное, что о ней нужно сказать, - на вход подается адрес, и работа идет над 4-мя байтами от этого адреса.
+То есть подали на вход первый байт, а функция будет работать с 1,2,3,4-ым.
+Результат пишется в регистр d0.
+
 Итак, функция get_hash_4b:
 
 ```python
-
-def get_hash_4b(key_4b):
+#key_4s - четыре символа ключа
+def get_hash_4b(key_4s):
 	
 	#Правило преобразования байта
 	def transform(b):
-		r = 0
-
+	
 		#numbers -.
 		if b <= 0x39:
 			r = b - 0x30
@@ -111,7 +114,6 @@ def get_hash_4b(key_4b):
 			#@ABCDEF
 			if b <= 0x46:
 				r = b - 0x37
-
 			else:
 				#WXYZ
 				if b >= 0x57:
@@ -121,8 +123,9 @@ def get_hash_4b(key_4b):
 					r = 0xff - (0x57-b) + 1 #a9+b
 
 		return r
-
-	key_b = bytearray(key_s, encoding="ascii")
+		
+	#Перевод в байты
+	key_4b = bytearray(key_4s, encoding="ascii")
 	
 	#Каждый байт аргумента трансформируется
 	codes = [transform(b) for b in key_4b]
@@ -136,8 +139,22 @@ def get_hash_4b(key_4b):
 	r = (r | (codes[3] & 0xf))
 
 	return r
+	
+>>> first_hash = get_hash_4b("ABCD")
+>>> hex(first_hash)
+0xabcd
+
+>>> second_hash = get_hash_4b("EFGH")
+>>> hex(second_hash)
+0xef01
 
 ```
+
+Проверим:
+
+
+
+
 
 # Первый важный цикл loc_1F94 #
 
