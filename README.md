@@ -83,6 +83,64 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_8b.png">
 </p>
 
+В этом блоке идет предварительная работа.
+Функция get_hash_4b(в оригинале было sub_1526) вызывается дважды.
+Сначала ей передается адрес первого байта ключа, во второй раз - пятого.
+
+Я назвал функцию так, потому что она производит что-то вроде хэша.
+Это самое понятное название, которое я подобрал.
+
+Саму функцию рассматривать я не буду, а сразу напишу ее на питоне.
+Она делает простые вещи, но ее описание со скринами займет много места.
+
+Итак, функция get_hash_4b:
+
+```python
+
+def get_hash_4b(key_4b):
+
+	def transform(b):
+		r = 0
+
+		#numbers -.
+		if b <= 0x39:
+			r = b - 0x30
+		#Letter case or @
+		else:
+			#@ABCDEF
+			if b <= 0x46:
+				r = b - 0x37
+
+			else:
+				#WXYZ
+				if b >= 0x57:
+					r = b - 0x57
+				#GHIJKLMNOPQRSTUV
+				else:
+					r = 0xff - (0x57-b) + 1 #a9+b
+
+		return r
+
+	key_b = bytearray(key_s, encoding="ascii")
+
+	codes = [transform(b) for b in key_b]
+
+	part0 = (codes[0] & 0xff) << 0xc
+
+	part1 = (codes[1] << 0x8) & 0xf00
+
+	part2 = (codes[2] << 0x4) & 0xf0
+
+	r = (part0 | part1) & 0xffff
+
+	r = (r | part2) & 0xffff
+
+	r = (r | (codes[3] & 0xf))
+
+	return r
+
+```
+
 # Первый важный цикл loc_1F94 #
 
 
