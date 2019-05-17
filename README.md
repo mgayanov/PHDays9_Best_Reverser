@@ -50,9 +50,14 @@
 
 Поставим брейк на адрес 0x000017EC, снова введем почту и ключ ABCD, запустимся.
 Отладчик останавливается и показывает, что по адресу 0x00FF01C7 находится введенный ключ.
-Это хорошая находка.
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_len_debug_0.png">
+</p>
+
+Это хорошая находка, через нее мы выцепим вообще все.
+Но сначала разметим байты ключа для удобства.
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/key_storage.png">
 </p>
 
 
