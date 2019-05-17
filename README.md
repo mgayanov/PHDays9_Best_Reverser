@@ -98,7 +98,8 @@
 ```python
 
 def get_hash_4b(key_4b):
-
+	
+	#Правило преобразования байта
 	def transform(b):
 		r = 0
 
@@ -122,19 +123,16 @@ def get_hash_4b(key_4b):
 		return r
 
 	key_b = bytearray(key_s, encoding="ascii")
-
-	codes = [transform(b) for b in key_b]
-
+	
+	#Каждый байт аргумента трансформируется
+	codes = [transform(b) for b in key_4b]
+	
+	#А здесь просто склеивается
 	part0 = (codes[0] & 0xff) << 0xc
-
 	part1 = (codes[1] << 0x8) & 0xf00
-
 	part2 = (codes[2] << 0x4) & 0xf0
-
 	r = (part0 | part1) & 0xffff
-
 	r = (r | part2) & 0xffff
-
 	r = (r | (codes[3] & 0xf))
 
 	return r
