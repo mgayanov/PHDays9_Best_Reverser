@@ -1,5 +1,20 @@
 # PHDays9_Best_Reverser
 
+# Осматриваемся #
+
+Программа принимает не всякий ключ: ключ обязательно должен быть 16 символов.
+Если ключ короче, то вы увидите сообщение: "Wrong length! Try again…"
+
+Попробуем найти эту строчку в программе, для чего воспользуемся бинарным поиском(Alt-B).
+Что же мы найдем?
+
+А найдем не только эту, но и рядом остальные служебные строки: "Wrong key! Try again…" и "YOU ARE THE BEST REVERSER!".
+
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_len.png">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_key.png">
+</p>
+
 # Первый важный цикл loc_1F94 #
 
 
