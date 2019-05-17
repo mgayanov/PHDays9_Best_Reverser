@@ -72,7 +72,7 @@
 
 # Схема проверки ключа #
 
-## Предварительное вычисление ##
+## Предварительные вычисления ##
 Нужно узнать где начинается проверка. Чтобы выяснить это, поставим брейк на инструкцию, которая идет первой в блоке после
 вывода о правильности длины ключа.
 То есть на 0x000017F6.
@@ -202,9 +202,14 @@ static main()
 Скрипт остановился на инструкции 0x00001C94, в d5 лежит 0.
 Но мы видим, что значение из d5 перемещается на инструкции 0x00001C56: оно пишется в память по адресу 0x00FF0D46(2 байта).
 
-Отловим инструкции, которые читают из 0x00FF0D46-0x00FF0D47(ставим брейк)
+Отловим инструкции, которые читают из 0x00FF0D46-0x00FF0D47(ставим брейк).
 Попались 4 кандидата
-
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/read_from_0d46.png">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/read_from_0d46_1.png">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/read_from_0d46_2.png">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/read_from_0d46_3.png">
+</p>
 
 
 # Первый важный цикл loc_1F94 #
