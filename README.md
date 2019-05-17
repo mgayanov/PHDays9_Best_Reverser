@@ -533,6 +533,10 @@ for pair in pairs:
 Эта часть горзадо легче.
 Ответственный кусок кода располагается на 0x00FF2012
 
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_FF2012.png">
+</p>
+
 d2 - (длина почты-1) <<8
 d3 - сумма байтов почты
 
