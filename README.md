@@ -60,6 +60,11 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/key_storage.png">
 </p>
 
+А прокрутим вверх с этого места.
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/email_storage.png">
+</p>
+Почта хранится рядом с ключем.
 
 
 # Первый важный цикл loc_1F94 #
