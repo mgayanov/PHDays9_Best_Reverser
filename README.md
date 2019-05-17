@@ -34,6 +34,12 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/callstack_wronglen.png">
 </p>
 
+Жмем и попадем сюда:
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/result_branches.png">
+</p>
+
+
 # Первый важный цикл loc_1F94 #
 
 
