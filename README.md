@@ -17,6 +17,15 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_key.png">
 </p>
 
+Поставим брейк на чтение адреса 0x0000FDFA - выясним, кто работает с сообщением.
+
+Отладчик приведет нас на 0x00006FF0
+
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_6FF0.png">
+</p>
+
+
 # Первый важный цикл loc_1F94 #
 
 
