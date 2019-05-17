@@ -48,6 +48,14 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_len.png">
 </p>
 
+Поставим брейк на адрес 0x000017EC, снова введем почту и ключ ABCD, запустимся.
+Отладчик останавливается и показывает, что по адресу 0x00FF01C7 находится введенный ключ.
+Это хорошая находка.
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_len_debug_0.png">
+</p>
+
+
 
 # Первый важный цикл loc_1F94 #
 
