@@ -150,10 +150,14 @@ def get_hash_4b(key_4s):
 
 ```
 
-Проверим:
+Проверим.
+Нас интересуют инструкции сразу после выполнения функции.
+Они располагаются на адресах 0x000017FE, 0x00001808, ставим брейки, ключ тот же.
 
-
-
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/first_key_hash.png">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/second_key_hash.png">
+</p>
 
 
 # Первый важный цикл loc_1F94 #
