@@ -159,6 +159,7 @@ def get_hash_4b(key_4s):
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/second_key_hash.png">
 </p>
 
+В регистр d0 заносятся значения 0xabcd, 0xef01, проверка пройдена.
 
 # Первый важный цикл loc_1F94 #
 
