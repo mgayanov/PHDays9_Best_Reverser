@@ -537,6 +537,32 @@ for pair in pairs:
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_FF2012.png">
 </p>
 
+Сделаем его понятнее:
+
+```
+while(d1 != 0x29){
+	d2++
+	d1 = d1 & 0xFF
+	d3 = d1 + d3
+	d0 = 0
+	d2 = d0
+	
+	d1 = *(a0+d0)
+}
+
+d0 = handle_key_bytes(key_byte_8)
+d3 = d0^d3
+
+d0 = handle_key_bytes(key_byte_12)
+d2 = d2 - 1
+d2 = d2 << 8
+d2 = d0^d2
+
+if (d2 == d3)
+	success_branch
+
+```
+
 d2 - (длина почты-1) <<8
 d3 - сумма байтов почты
 
