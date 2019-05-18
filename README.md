@@ -15,7 +15,10 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_key.png">
 </p>
 
-Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG создал я.Поставим брейк на чтение адреса 0x0000FDFA - выясним, кто работает с сообщением "Wrong length! Try again…".
+Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG создал я.
+
+
+Поставим брейк на чтение адреса 0x0000FDFA - выясним, кто работает с сообщением "Wrong length! Try again…".
 И запускаем отладчик.
 (Он несколько раз остановится еще до того как можно будет вводить ключ, просто жмем F9 на каждой остановке).
 Вводим свой email, ключ ABCD.
