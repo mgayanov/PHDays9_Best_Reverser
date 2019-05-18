@@ -275,6 +275,8 @@ static main()
 
 # Первый важный цикл loc_1F94 #
 
+То, что `loc_1F94` видно из кода: цикл выполняется `d4` раз (см. инструкцию `0x00001FBA d4,loc_1F94`)
+
 
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_1F94_1.png">
