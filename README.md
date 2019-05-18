@@ -14,7 +14,8 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_len.png">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_key.png">
 </p>
-Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG поставил я.
+Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG создал я.
+
 
 Поставим брейк на чтение адреса 0x0000FDFA - выясним, кто работает с сообщением. И запускаем отладчик.
 (Он несколько раз может остановиться еще до того как будет введен ключ, просто жмем F9 на каждой остановке)
