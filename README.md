@@ -23,7 +23,7 @@
 Вводим свой email, ключ ABCD.
 </p>
 
-Отладчик приведет нас на 0x00006FF0
+Отладчик приводит на 0x00006FF0
 
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_6FF0.png">
@@ -36,7 +36,7 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/callstack_wronglen.png">
 </p>
 
-Жмем и попадем сюда:
+Жмем и попадем сюда - на инструкцию 0x00001D2A:
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/result_branches.png">
 </p>
