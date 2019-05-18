@@ -269,6 +269,8 @@ static main()
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_203E.png">
 </p>
 
+Помните, мы нашли 4 блока ранее? `loc_1F94` мы там видели - это начало главного алгоритма обработки ключа.
+
 
 
 # Первый важный цикл loc_1F94 #
