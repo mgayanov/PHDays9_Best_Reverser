@@ -208,8 +208,8 @@ static main()
 </p>
 
 
-Отловим инструкции, которые читают из 0x00FF0D46-0x00FF0D47(ставим брейк).
-Попались 4 кандидата
+Отловим инструкции, которые читают из `0x00FF0D46-0x00FF0D47`(ставим брейк на чтение).
+Попались 4 блока.
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/read_from_0d46.png">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/read_from_0d46_1.png">
@@ -217,9 +217,9 @@ static main()
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/read_from_0d46_3.png">
 </p>
 
-Неизвестно какие из них интересны. Это тупик.
+Как выбрать из них правильный/правильных?
 
-Вернемся в начало.
+Возвращаемся в начало.
 
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/result_branches.png">
