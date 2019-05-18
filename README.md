@@ -237,6 +237,14 @@ static main()
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/moment_of_tru_0.png">
 </p>
 
+Если в блоке `loc_1EEC` выполняется условие
+
+```c
+*(a6 + 0x24) == *(a6 + 0x22)
+```
+
+то мы получим ноль в `d5`
+
 
 # Первый важный цикл loc_1F94 #
 
