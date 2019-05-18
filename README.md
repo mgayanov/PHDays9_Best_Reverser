@@ -36,7 +36,7 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/callstack_wronglen.png">
 </p>
 
-Жмем и попадем сюда - на инструкцию 0x00001D2A:
+Жмем и попадем сюда - на инструкцию 0x00001D2A `jsr (sub_6FC0)`:
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/result_branches.png">
 </p>
