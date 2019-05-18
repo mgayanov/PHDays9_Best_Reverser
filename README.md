@@ -44,7 +44,7 @@
 Видим, что все возможные результаты нашлись в одном месте.
 Но давайте узнаем, откуда передается управление в этот блок.
 Не будет ставить брейки, просто наведем курсор на стрелку, идущую к блоку `WRONG_KEY_LEN_CASE_1D1C`.
-Вызывающий расположился на адресе 0x000017DE.
+Вызывающий расположился на адресе 0x000017DE `	loc_17DE`.
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/checklen_loc.png">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_len.png">
