@@ -18,13 +18,13 @@
 Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG создал я.
 
 
-Поставим брейк на чтение адреса 0x0000FDFA - выясним, кто работает с сообщением "Wrong length! Try again…".
+Поставим брейк на чтение адреса `0x0000FDFA` - выясним, кто работает с сообщением "Wrong length! Try again…".
 И запустим отладчик.
 (Он несколько раз остановится еще до того как можно будет вводить ключ, просто жмем F9 на каждой остановке).
 Вводим свой email, ключ ABCD.
 
 
-Отладчик приводит на 0x00006FF0 `tst.b (a1)+`
+Отладчик приводит на `0x00006FF0 tst.b (a1)+`
 
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_6FF0.png">
@@ -37,7 +37,7 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/callstack_wronglen.png">
 </p>
 
-Жмем и попадем сюда - на инструкцию 0x00001D2A `jsr (sub_6FC0)`:
+Жмем и попадем сюда - на инструкцию `0x00001D2A jsr (sub_6FC0)`:
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/result_branches.png">
 </p>
@@ -45,15 +45,15 @@
 Видим, что все возможные сообщения нашлись в одном месте.
 Но давайте узнаем, откуда передается управление в блок `WRONG_KEY_LEN_CASE_1D1C`.
 Не будем ставить брейки, просто наведем курсор на стрелку, идущую к блоку.
-Вызывающий расположился на адресе 0x000017DE `loc_17DE`(который я переименую в `CHECK_KEY_LEN`).
+Вызывающий расположился на адресе `0x000017DE loc_17DE`(который я переименую в `CHECK_KEY_LEN`).
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/checklen_loc.png">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_len.png">
 </p>
 
-Поставим брейк на адрес 0x000017EC `cmpi.b 0x20 (a0, d0.l)`(здесь принимается решение о валидности длины),
+Поставим брейк на адрес `0x000017EC cmpi.b 0x20 (a0, d0.l)`(здесь принимается решение о валидности длины),
 перезапустимся, снова введем почту и ключ ABCD.
-Отладчик останавливается и показывает, что по адресу 0x00FF01C7(хранящемуся в этот момент в регистре `a0`) находится введенный ключ.
+Отладчик останавливается и показывает, что по адресу `0x00FF01C7`(хранящемуся в этот момент в регистре `a0`) находится введенный ключ.
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_len_debug_0.png">
 </p>
