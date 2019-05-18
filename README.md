@@ -246,12 +246,29 @@ static main()
 то мы получим ноль в `d5`
 
 Если мы поставим брейк на инструкцию `0x00001F16 beq.w loc_20EA`, то увидим, что
-`a6 + 0x24 = 0x00FF1D6C` и там хранится значение `0x4840`.
+`a6 + 0x24 = 0x00FF0D68` и там хранится значение `0x4840`.
 А в `a6 + 0x22 = 0x00FF1D6A` хранится `0xCB4C`.
 
 
 Если мы будем вводить разные ключи, почты, то увидим, что `0xCB4C` - константа.
-Ключ будет принят, только если в `0x00FF1D6C` будет тоже `0xCB4C`.
+Ключ будет принят, только если в `0x00FF0D6A` будет тоже `0xCB4C`.
+
+Узнаем, какие блоки пишут в `0x00FF0D6A` - ставим брейк на запись снова вводим почту и ключ.
+
+И вот этот блок `loc_EAC` мы обнаружим(на самом деле их 3, но первые два просто обнуляют `0x00FF0D6A`):
+
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/sub_E3E_1.png">
+</p>
+
+Этот блок принадлежит функции `sub_E3E`.
+
+Через колл стэк выясняем, что функция `sub_E3E` вызывается в блоках `loc_1F94`, `loc_203E`:
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_1F94_1.png">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_203E.png">
+</p>
+
 
 
 # Первый важный цикл loc_1F94 #
