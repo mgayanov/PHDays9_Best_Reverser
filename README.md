@@ -230,6 +230,13 @@ static main()
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loser_case_d1.png">
 </p>
 
+Видим, что в регистре `d1` должен быть ноль для победы.
+
+Где ставится ноль? Просто прокрутим наверх:
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/moment_of_tru_0.png">
+</p>
+
 
 # Первый важный цикл loc_1F94 #
 
