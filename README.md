@@ -225,6 +225,12 @@ static main()
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/result_branches.png">
 </p>
 
+Этот блок определяет, пойдет ли программа в LOSER_CASE или в WINNER_CASE:
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loser_case_d1.png">
+</p>
+
+
 # Первый важный цикл loc_1F94 #
 
 
