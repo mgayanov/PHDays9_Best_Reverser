@@ -150,17 +150,17 @@ def get_hash_4s(key_4s):
 ```
 
 Проверим.
-Нас интересуют инструкции сразу после выполнения функции.
-Они располагаются на адресах 0x000017FE, 0x00001808, ставим брейки, ключ тот же.
+Нас интересует состояние регистра `d0` после выполнения функции.
+Ставим брейки на `0x000017FE`, `0x00001808`, ключ ABCDEFGHIJKLMNOP.
 
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/first_key_hash.png">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/second_key_hash.png">
 </p>
 
-В регистр d0 заносятся значения 0xabcd, 0xef01, проверка пройдена.
+В регистр `d0` заносятся значения `0xabcd`, `0xef01`, проверка пройдена.
 
-Далее производится xor и результат заносится в d5:
+Далее производится xor и результат заносится в `d5`:
 
 ```python
 >>> hex(0xabcd ^ 0xef01)
