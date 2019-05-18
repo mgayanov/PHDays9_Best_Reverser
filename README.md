@@ -23,7 +23,7 @@
 Вводим свой email, ключ ABCD.
 </p>
 
-Отладчик приводит на 0x00006FF0
+Отладчик приводит на 0x00006FF0 `tst.b (a1)+`
 
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_6FF0.png">
