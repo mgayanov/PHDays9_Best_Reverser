@@ -202,6 +202,9 @@ key_4s == decode_hash_4b(get_hash_4b(key_4s))
 >>> hex(0xabcd ^ 0xef01)
 0x44cc
 ```
+<p align="center">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/start_xor_d5.png">
+</p>
 
 В получении такого хэша `0x44cc` и состоят предварительные вычисления.
 Далее все только усложняется.
