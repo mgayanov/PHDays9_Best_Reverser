@@ -110,7 +110,7 @@
 </p>
 
 В этом блоке идет предварительная работа.
-Функция `get_hash_4b`(в оригинале было `sub_1526`) вызывается дважды.
+Функция `get_hash_2b`(в оригинале было `sub_1526`) вызывается дважды.
 Сначала ей передается адрес первого байта ключа(регистр `a0` содержит адрес `KEY_BYTE_0`), во второй раз - пятого(`KEY_BYTE_4`).
 
 Я назвал функцию так, потому что она считает что-то типа хэша.
@@ -127,7 +127,7 @@
 
 ```python
 # key_4s - четыре символа ключа
-def get_hash_4b(key_4s):
+def get_hash_2b(key_4s):
 	# Правило преобразования байта
 	def transform(b):
 
@@ -159,17 +159,17 @@ def get_hash_4b(key_4s):
 	part0 = (codes[0] & 0xff) << 0xc
 	part1 = (codes[1] << 0x8) & 0xf00
 	part2 = (codes[2] << 0x4) & 0xf0
-	hash_4b = (part0 | part1) & 0xffff
-	hash_4b = (hash_4b | part2) & 0xffff
-	hash_4b = (hash_4b | (codes[3] & 0xf))
+	hash_2b = (part0 | part1) & 0xffff
+	hash_2b = (hash_2b | part2) & 0xffff
+	hash_2b = (hash_2b | (codes[3] & 0xf))
 
-	return hash_4b
+	return hash_2b
 ```
 
 Сразу напишем функцию декодирования хэша:
 
 ```python
-def decode_hash_4b(hash_4b):
+def decode_hash_4s(hash_2b):
 
 	# Правило преобразования байта
 	def transform(b):
@@ -182,10 +182,10 @@ def decode_hash_4b(hash_4b):
 		return b - 0xa9
 
 	# Нарезаем отдельные байты из переданого хэша и переводи
-	b0 = transform(hash_4b >> 12)
-	b1 = transform((hash_4b & 0xfff) >> 8)
-	b2 = transform((hash_4b & 0xff) >> 4)
-	b3 = transform(hash_4b & 0xf)
+	b0 = transform(hash_2b >> 12)
+	b1 = transform((hash_2b & 0xfff) >> 8)
+	b2 = transform((hash_2b & 0xff) >> 4)
+	b3 = transform(hash_2b & 0xf)
 
 	# Склеиваем
 	key_4s = [chr(b0), chr(b1), chr(b2), chr(b3)]
@@ -198,10 +198,10 @@ def decode_hash_4b(hash_4b):
 Поэтому я буду ее проверять так:
 
 ```python
-key_4s == decode_hash_4b(get_hash_4b(key_4s))
+key_4s == decode_hash_4s(get_hash_2b(key_4s))
 ```
 
-Проверим работу `get_hash_4b`.
+Проверим работу `get_hash_2b`.
 Нас интересует состояние регистра `d0` после выполнения функции.
 Ставим брейки на `0x000017FE`, `0x00001808`, ключ `ABCDEFGHIJKLMNOP`.
 
@@ -211,14 +211,14 @@ key_4s == decode_hash_4b(get_hash_4b(key_4s))
 </p>
 
 В регистр `d0` заносятся значения `0xabcd`, `0xef01`.
-А что выдаст `get_hash_4b`?
+А что выдаст `get_hash_2b`?
 
 ```python
->>> first_hash = get_hash_4b("ABCD")
+>>> first_hash = get_hash_2b("ABCD")
 >>> hex(first_hash)
 0xabcd
 
->>> second_hash = get_hash_4b("EFGH")
+>>> second_hash = get_hash_2b("EFGH")
 >>> hex(second_hash)
 0xef01
 ```
@@ -588,10 +588,10 @@ def sub_E3E(prev_sub_E3E_result, d2, d2_storage):
 Представим блок так:
 
 ```python
-def transform(hash_4b):
-	new = hash_4b >> 1
+def transform(hash_2b):
+	new = hash_2b >> 1
 
-	if hash_4b & 0b1 != 0:
+	if hash_2b & 0b1 != 0:
 		new = new | 0x8000
 
 	return new
@@ -642,13 +642,13 @@ move.b (a0, d0.l), d0
 Теперь у нас есть все, чтобы написать полную функцию вычисления хэша ключа.
 
 ```python
-def finish_hash(hash_4b):
+def finish_hash(hash_2b):
 
 	# Правило преобразования хэша
-	def transform(hash_4b):
-		new = hash_4b >> 1
+	def transform(hash_2b):
+		new = hash_2b >> 1
 
-		if hash_4b & 0b1 != 0:
+		if hash_2b & 0b1 != 0:
 			new = new | 0x8000
 
 		return new
@@ -671,7 +671,7 @@ def finish_hash(hash_4b):
 		for _ in range(c[0]):
 			d0 = next(sub_5EC)
 
-			d1 = hash_4b & 0xff
+			d1 = hash_2b & 0xff
 			d2 = d0 ^ d1
 
 			curr_sub_E3E_result = sub_E3E(prev_sub_E3E_result, d2, d2_storage)
@@ -686,7 +686,7 @@ def finish_hash(hash_4b):
 			curr_sub_E3E_result = sub_E3E(prev_sub_E3E_result, d2, d2_storage)
 			prev_sub_E3E_result = curr_sub_E3E_result
 
-		hash_4b = transform(hash_4b)
+		hash_2b = transform(hash_2b)
 
 	return curr_sub_E3E_result
 ```
@@ -703,7 +703,7 @@ def finish_hash(hash_4b):
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/24a6.png">
 </p>
-7. Теперь проверям нашу функцию `finish_hash(hash_4b)`:
+7. Теперь проверям нашу функцию `finish_hash(hash_2b)`:
 ```python
 >>> r = finish_hash(0x44CC)
 >>> print(hex(r))
@@ -723,10 +723,10 @@ def find_CB4C():
 
 	result = []
 
-	for hash_4b in range(0xFFFF+1):
-		final_hash = finish_hash(hash_4b)
+	for hash_2b in range(0xFFFF+1):
+		final_hash = finish_hash(hash_2b)
 		if final_hash == 0xCB4C:
-			result.append(hash_4b)
+			result.append(hash_2b)
 
 	return result
 	
@@ -767,13 +767,13 @@ def get_first_half():
 
 	for pair in pairs:
 
-		key_4s_0 = decode_hash_4b(pair[0])
-		key_4s_1 = decode_hash_4b(pair[1])
+		key_4s_0 = decode_hash_4s(pair[0])
+		key_4s_1 = decode_hash_4s(pair[1])
 
-		hash_4b_0 = get_hash_4b(key_4s_0)
-		hash_4b_1 = get_hash_4b(key_4s_1)
+		hash_2b_0 = get_hash_2b(key_4s_0)
+		hash_2b_1 = get_hash_2b(key_4s_1)
 
-		if hash_4b_0 == pair[0] and hash_4b_1 == pair[1]:
+		if hash_2b_0 == pair[0] and hash_2b_1 == pair[1]:
 			return key_4s_0, key_4s_1
 ```
 
@@ -859,13 +859,13 @@ def get_second_half(email):
 
 	for pair in pairs:
 
-		key_4s_0 = decode_hash_4b(pair[0])
-		key_4s_1 = decode_hash_4b(pair[1])
+		key_4s_0 = decode_hash_4s(pair[0])
+		key_4s_1 = decode_hash_4s(pair[1])
 
-		hash_4b_0 = get_hash_4b(key_4s_0)
-		hash_4b_1 = get_hash_4b(key_4s_1)
+		hash_2b_0 = get_hash_2b(key_4s_0)
+		hash_2b_1 = get_hash_2b(key_4s_1)
 
-		if hash_4b_0 == pair[0] and hash_4b_1 == pair[1]:
+		if hash_2b_0 == pair[0] and hash_2b_1 == pair[1]:
 			return key_4s_0, key_4s_1
 ```
 
