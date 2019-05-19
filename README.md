@@ -872,6 +872,8 @@ def get_second_half(email):
 
 # Кейген #
 
+Почта обязательно капсом.
+
 ```python
 def keygen(email):
 
