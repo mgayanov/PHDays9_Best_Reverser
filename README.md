@@ -2,25 +2,15 @@
 
 1. [Осматриваемся](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%BE%D1%81%D0%BC%D0%B0%D1%82%D1%80%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC%D1%81%D1%8F)
 2. [Критерий правильности первой половины ключа](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%BA%D1%80%D0%B8%D1%82%D0%B5%D1%80%D0%B8%D0%B9-%D0%BF%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D0%BF%D0%B5%D1%80%D0%B2%D0%BE%D0%B9-%D0%BF%D0%BE%D0%BB%D0%BE%D0%B2%D0%B8%D0%BD%D1%8B-%D0%BA%D0%BB%D1%8E%D1%87%D0%B0)
-
 * [Предварительные вычисления](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%BF%D1%80%D0%B5%D0%B4%D0%B2%D0%B0%D1%80%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%B2%D1%8B%D1%87%D0%B8%D1%81%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F)
-
-
 * [Куда уплывает хэш](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%BA%D1%83%D0%B4%D0%B0-%D1%83%D0%BF%D0%BB%D1%8B%D0%B2%D0%B0%D0%B5%D1%82-%D1%85%D1%8D%D1%88)
-
-
 3. [Первый важный цикл loc_1F94](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%BF%D0%B5%D1%80%D0%B2%D1%8B%D0%B9-%D0%B2%D0%B0%D0%B6%D0%BD%D1%8B%D0%B9-%D1%86%D0%B8%D0%BA%D0%BB-loc_1f94)
-
 * [sub_5EC](https://github.com/mgayanov/PHDays9_Best_Reverser#sub_5ec)
 * [sub_E3E](https://github.com/mgayanov/PHDays9_Best_Reverser#sub_e3e)
 4. [Активность около 1FC4](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D0%BA%D0%BE%D0%BB%D0%BE-1fc4)
-
 5. [Второй важный цикл loc_203E](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%B2%D1%82%D0%BE%D1%80%D0%BE%D0%B9-%D0%B2%D0%B0%D0%B6%D0%BD%D1%8B%D0%B9-%D1%86%D0%B8%D0%BA%D0%BB-loc_203e)
-
 6. [Ищем правильный ключ 1](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%B8%D1%89%D0%B5%D0%BC-%D0%BF%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9-%D0%BA%D0%BB%D1%8E%D1%87-1)
-
 7. [Ищем правильный ключ 2](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%B8%D1%89%D0%B5%D0%BC-%D0%BF%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9-%D0%BA%D0%BB%D1%8E%D1%87-2)
-
 8. [Кейген](https://github.com/mgayanov/PHDays9_Best_Reverser#%D0%BA%D0%B5%D0%B9%D0%B3%D0%B5%D0%BD)
 
 
