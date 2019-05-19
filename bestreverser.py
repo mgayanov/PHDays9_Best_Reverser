@@ -247,9 +247,3 @@ def keygen(email):
 	second_half = get_second_half(email)
 
 	return "".join(first_half) + "".join(second_half)
-
-email = "MMM"
-
-key = keygen(email)
-
-print(key)
