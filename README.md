@@ -99,51 +99,50 @@
 Итак, функция get_hash_4b:
 
 ```python
-#key_4s - четыре символа ключа
-def get_hash_4s(key_4s):
-	
-	#Правило преобразования байта
+# key_4s - четыре символа ключа
+def get_hash_4b(key_4s):
+	# Правило преобразования байта
 	def transform(b):
-	
-		#numbers -.
+
+		# numbers -.
 		if b <= 0x39:
 			r = b - 0x30
-		#Letter case or @
+		# Letter case and @
 		else:
-			#@ABCDEF
+			# @ABCDEF
 			if b <= 0x46:
 				r = b - 0x37
 			else:
-				#WXYZ
+				# WXYZ
 				if b >= 0x57:
 					r = b - 0x57
-				#GHIJKLMNOPQRSTUV
+				# GHIJKLMNOPQRSTUV
 				else:
-					r = 0xff - (0x57-b) + 1 #a9+b
+					r = 0xff - (0x57 - b) + 1  # a9+b
 
 		return r
-		
-	#Перевод в байты
+
+	# Перевод в байты
 	key_4b = bytearray(key_4s, encoding="ascii")
-	
-	#Каждый байт аргумента трансформируется
+
+	# Каждый байт аргумента трансформируется
 	codes = [transform(b) for b in key_4b]
-	
-	#А здесь просто склеивается
+
+	# А здесь они просто склеиваются
 	part0 = (codes[0] & 0xff) << 0xc
 	part1 = (codes[1] << 0x8) & 0xf00
 	part2 = (codes[2] << 0x4) & 0xf0
-	r = (part0 | part1) & 0xffff
-	r = (r | part2) & 0xffff
-	r = (r | (codes[3] & 0xf))
+	hash_4b = (part0 | part1) & 0xffff
+	hash_4b = (hash_4b | part2) & 0xffff
+	hash_4b = (hash_4b | (codes[3] & 0xf))
 
-	return r
+	return hash_4b
 	
->>> first_hash = get_hash_4s("ABCD")
+>>> first_hash = get_hash_4b("ABCD")
 >>> hex(first_hash)
 0xabcd
 
->>> second_hash = get_hash_4s("EFGH")
+>>> second_hash = get_hash_4b("EFGH")
 >>> hex(second_hash)
 0xef01
 
@@ -152,6 +151,41 @@ def get_hash_4s(key_4s):
 Проверим.
 Нас интересует состояние регистра `d0` после выполнения функции.
 Ставим брейки на `0x000017FE`, `0x00001808`, ключ ABCDEFGHIJKLMNOP.
+
+Сразу напишем функцию декодирования хэша:
+
+```python
+def decode_hash_4b(hash_4b):
+
+	# Правило преобразования байта
+	def transform(b):
+		if b <= 0x9:
+			return b + 0x30
+		if b <= 0xF:
+			return b + 0x37
+		if b >= 0x0:
+			return b + 0x57
+		return b - 0xa9
+
+	# Нарезаем отдельные байты из переданого хэша и переводи
+	b0 = transform(hash_4b >> 12)
+	b1 = transform((hash_4b & 0xfff) >> 8)
+	b2 = transform((hash_4b & 0xff) >> 4)
+	b3 = transform(hash_4b & 0xf)
+
+	# Склеиваем
+	key_4s = [chr(b0), chr(b1), chr(b2), chr(b3)]
+	key_4s = "".join(key_4s)
+
+	return key_4s
+```
+
+Лучше функцию декодирования я не придумал, и она не совсем правильная.
+Поэтому я буду ее проверять так:
+
+```python
+key_4s == decode_hash_4b(get_hash_4b(key_4s))
+```
 
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/first_key_hash.png">
@@ -388,21 +422,21 @@ static main()
 Запустив скрипт несколько раз при разных ключах, мы видим, что функция `sub_5EC` всегда возвращает очередное значение из массива:
 
 ```python
-def sub_5EC():
+def sub_5EC_gen():
 	dump = [0x92, 0x8A, 0xDC, 0xDC, 0x94, 0x3B, 0xE4, 0xE4,
-		0xFC, 0xB3, 0xDC, 0xEE, 0xF4, 0xB4, 0xDC, 0xDE,
-		0xFE, 0x68, 0x4A, 0xBD, 0x91, 0xD5, 0x0A, 0x27,
-		0xED, 0xFF, 0xC2, 0xA5, 0xD6, 0xBF, 0xDE, 0xFA,
-		0xA6, 0x72, 0xBF, 0x1A, 0xF6, 0xFA, 0xE4, 0xE7,
-		0xFA, 0xF7, 0xF6, 0xD6, 0x91, 0xB4, 0xB4, 0xB5,
-		0xB4, 0xF4, 0xA4, 0xF4, 0xF4, 0xB7, 0xF6, 0x09,
-		0x20, 0xB7, 0x86, 0xF6, 0xE6, 0xF4, 0xE4, 0xC6,
-		0xFE, 0xF6, 0x9D, 0x11, 0xD4, 0xFF, 0xB5, 0x68,
-		0x4A, 0xB8, 0xD4, 0xF7, 0xAE, 0xFF, 0x1C, 0xB7,
-		0x4C, 0xBF, 0xAD, 0x72, 0x4B, 0xBF, 0xAA, 0x3D,
-		0xB5, 0x7D, 0xB5, 0x3D, 0xB9, 0x7D, 0xD9, 0x7D,
-		0xB1, 0x13, 0xE1, 0xE1, 0x02, 0x15, 0xB3, 0xA3,
-		0xB3, 0x88, 0x9E, 0x2C, 0xB0, 0x8F]
+	        0xFC, 0xB3, 0xDC, 0xEE, 0xF4, 0xB4, 0xDC, 0xDE,
+	        0xFE, 0x68, 0x4A, 0xBD, 0x91, 0xD5, 0x0A, 0x27,
+	        0xED, 0xFF, 0xC2, 0xA5, 0xD6, 0xBF, 0xDE, 0xFA,
+	        0xA6, 0x72, 0xBF, 0x1A, 0xF6, 0xFA, 0xE4, 0xE7,
+	        0xFA, 0xF7, 0xF6, 0xD6, 0x91, 0xB4, 0xB4, 0xB5,
+	        0xB4, 0xF4, 0xA4, 0xF4, 0xF4, 0xB7, 0xF6, 0x09,
+	        0x20, 0xB7, 0x86, 0xF6, 0xE6, 0xF4, 0xE4, 0xC6,
+	        0xFE, 0xF6, 0x9D, 0x11, 0xD4, 0xFF, 0xB5, 0x68,
+	        0x4A, 0xB8, 0xD4, 0xF7, 0xAE, 0xFF, 0x1C, 0xB7,
+	        0x4C, 0xBF, 0xAD, 0x72, 0x4B, 0xBF, 0xAA, 0x3D,
+	        0xB5, 0x7D, 0xB5, 0x3D, 0xB9, 0x7D, 0xD9, 0x7D,
+	        0xB1, 0x13, 0xE1, 0xE1, 0x02, 0x15, 0xB3, 0xA3,
+	        0xB3, 0x88, 0x9E, 0x2C, 0xB0, 0x8F]
 
 	l = len(dump)
 	offset = 0
@@ -469,26 +503,24 @@ d2 = d0 ^ d2
 Представим функцию sub_E3E в таком виде:
 
 ```python
-
-def sub_E3E(prev_sub_E3E_xored, d2, d2_storage):
+def sub_E3E(prev_sub_E3E_result, d2, d2_storage):
 
 	def calc_offset():
-		return 2 * ((prev_sub_E3E_xored^d2) & 0xff)
-        
-    	d2_storage.append(d2)
-    
-    	offset = calc_offset()
+		return 2 * ((prev_sub_E3E_result ^ d2) & 0xff)
+
+	d2_storage.append(d2)
+
+	offset = calc_offset()
 
 	with open("dump_00011FC0", 'rb') as f:
 		dump_00011FC0_4096b = f.read()
 
-	some = dump_00011FC0_4096b[offset:offset+2]
+	some = dump_00011FC0_4096b[offset:offset + 2]
 	some = int.from_bytes(some, byteorder="big")
 
-	prev_sub_E3E_xored = prev_sub_E3E_xored >> 8
+	prev_sub_E3E_result = prev_sub_E3E_result >> 8
 
-	return prev_sub_E3E_xored ^ some
-
+	return prev_sub_E3E_result ^ some
 ```
 
 `dump_00011FC0` - это просто файл, куда я сохранил 4096 байт из `[0x00011FC0:00011FC0+4096]`.
@@ -514,13 +546,13 @@ def sub_E3E(prev_sub_E3E_xored, d2, d2_storage):
 Представим блок так:
 
 ```python
-def transform_input_xored(xored):
-	new_xored = xored >> 1
+def transform(hash_4b):
+	new = hash_4b >> 1
 
-	if xored_w & 0b1 != 0:
-		new_xored = new_xored | 0x8000
+	if hash_4b & 0b1 != 0:
+		new = new | 0x8000
 
-	return new_xored
+	return new
 ```
 
 
@@ -569,59 +601,16 @@ move.b (a0, d0.l), d0
 Теперь у нас есть все, чтобы написать полную функцию вычисления хэша первой половины ключа.
 
 ```python
-def sub_5EC_gen():
-	dump = [0x92, 0x8A, 0xDC, 0xDC, 0x94, 0x3B, 0xE4, 0xE4,
-	        0xFC, 0xB3, 0xDC, 0xEE, 0xF4, 0xB4, 0xDC, 0xDE,
-	        0xFE, 0x68, 0x4A, 0xBD, 0x91, 0xD5, 0x0A, 0x27,
-	        0xED, 0xFF, 0xC2, 0xA5, 0xD6, 0xBF, 0xDE, 0xFA,
-	        0xA6, 0x72, 0xBF, 0x1A, 0xF6, 0xFA, 0xE4, 0xE7,
-	        0xFA, 0xF7, 0xF6, 0xD6, 0x91, 0xB4, 0xB4, 0xB5,
-	        0xB4, 0xF4, 0xA4, 0xF4, 0xF4, 0xB7, 0xF6, 0x09,
-	        0x20, 0xB7, 0x86, 0xF6, 0xE6, 0xF4, 0xE4, 0xC6,
-	        0xFE, 0xF6, 0x9D, 0x11, 0xD4, 0xFF, 0xB5, 0x68,
-	        0x4A, 0xB8, 0xD4, 0xF7, 0xAE, 0xFF, 0x1C, 0xB7,
-	        0x4C, 0xBF, 0xAD, 0x72, 0x4B, 0xBF, 0xAA, 0x3D,
-	        0xB5, 0x7D, 0xB5, 0x3D, 0xB9, 0x7D, 0xD9, 0x7D,
-	        0xB1, 0x13, 0xE1, 0xE1, 0x02, 0x15, 0xB3, 0xA3,
-	        0xB3, 0x88, 0x9E, 0x2C, 0xB0, 0x8F]
+def finish_hash(hash_4b):
 
-	l = len(dump)
-	offset = 0
+	# Правило преобразования хэша
+	def transform(hash_4b):
+		new = hash_4b >> 1
 
-	while offset < l:
-		yield dump[offset]
-		offset += 1
+		if hash_4b & 0b1 != 0:
+			new = new | 0x8000
 
-
-def sub_E3E(prev_sub_E3E_result, d2, d2_storage):
-	def calc_offset():
-		return 2 * ((prev_sub_E3E_result ^ d2) & 0xff)
-
-	d2_storage.append(d2)
-
-	offset = calc_offset()
-
-	with open("dump_00011FC0", 'rb') as f:
-		dump_00011FC0_4096b = f.read()
-
-	some = dump_00011FC0_4096b[offset:offset + 2]
-	some = int.from_bytes(some, byteorder="big")
-
-	prev_sub_E3E_result = prev_sub_E3E_result >> 8
-
-	return prev_sub_E3E_result ^ some
-
-
-def transform_key_hash(key_hash_p1):
-	new = key_hash_p1 >> 1
-
-	if key_hash_p1 & 0b1 != 0:
-		new = new | 0x8000
-
-	return new
-
-
-def sign_key_hash(key_hash_p1):
+		return new
 
 	main_cycle_counter = [17, 2, 2, 3, 4, 38, 10, 30, 4]
 	second_cycle_counter = [2, 2, 2, 2, 2, 4, 2, 4, 28]
@@ -641,12 +630,10 @@ def sign_key_hash(key_hash_p1):
 		for _ in range(c[0]):
 			d0 = next(sub_5EC)
 
-			d1 = key_hash_p1 & 0xff
-
+			d1 = hash_4b & 0xff
 			d2 = d0 ^ d1
 
 			curr_sub_E3E_result = sub_E3E(prev_sub_E3E_result, d2, d2_storage)
-
 			prev_sub_E3E_result = curr_sub_E3E_result
 
 		storage_offset = storage_offsets.pop(0)
@@ -656,13 +643,11 @@ def sign_key_hash(key_hash_p1):
 			d2 = d2_storage[-storage_offset]
 
 			curr_sub_E3E_result = sub_E3E(prev_sub_E3E_result, d2, d2_storage)
-
 			prev_sub_E3E_result = curr_sub_E3E_result
 
-		key_hash_p1 = transform_key_hash(key_hash_p1)
+		hash_4b = transform(hash_4b)
 
 	return curr_sub_E3E_result
-
 ```
 
 ## Проверка работоспособности ##
@@ -676,7 +661,7 @@ def sign_key_hash(key_hash_p1):
 6. Останавливаемся на `0x00001F16` и видим, что по адресу `0x00FF1D6C` лежит `0x4840` - окончательный хэш
 7. Теперь проверям нашу функцию sign_key_hash(key_hash_p1):
 ```python
->>> r = sign_key_hash(0x44CC)
+>>> r = finish_hash(0x44CC)
 >>> print(hex(r))
 0x4840
 ```
@@ -690,20 +675,21 @@ def sign_key_hash(key_hash_p1):
 
 ```python
 
-result = []
+def find_CB4C():
 
-for h1 in range(0x0000, 0xFFFF+1):
+	result = []
 
-	h2 = sign_key(h1)
-
-	if h2 == 0xCB4C:
-		result.append(h2)
-
-print(result)
-
+	for hash_4b in range(0xFFFF+1):
+		final_hash = finish_hash(hash_4b)
+		if final_hash == 0xCB4C:
+			result.append(hash_4b)
+	return result
+	
+>>> r = find_CB4C()
+>>> print(r)
 ```
 
-Вывод программы говорит о том, что первый хэш должен быть `0xFEDC`
+Вывод программы говорит о том, что вариант один: первый хэш должен быть `0xFEDC`.
 
 Теперь главный вопрос звучит так: какие символы надо ввести, чтобы их предварительный хэш равнялся `0xFEDC`?
 
@@ -715,98 +701,36 @@ print(result)
 Алгоритм такой:
 
 ```python
+def get_first_half():
 
-def encode(key_s):
+	from collections import deque
+	from random import randint
 
-	def make(b):
-		r = 0
+	def get_pairs():
 
-		#numbers -.
-		if b <= 0x39:
-			r = b - 0x30
-		#Letter case or @
-		else:
-			#@ABCDEF
-			if b <= 0x46:
-				r = b - 0x37
+		pairs = []
 
-			else:
-				#WXYZ
-				if b >= 0x57:
-					r = b - 0x57
-				#GHIJKLMNOPQRSTUV
-				else:
-					r = 0xff - (0x57-b) + 1 #a9+b
+		for i in range(0xFFFF + 1):
+			pair = (i, i ^ 0xFEDC)
+			pairs.append(pair)
 
-		return r
+		pairs = deque(pairs)
+		pairs.rotate(randint(0, 0xFFFF))
 
-	key_b = bytearray(key_s, encoding="ascii")
+		return list(pairs)
 
-	codes = [make(b) for b in key_b]
-	
-	part0 = (codes[0] & 0xff) << 0xc
+	pairs = get_pairs()
 
-	part1 = (codes[1] << 0x8) & 0xf00
+	for pair in pairs:
 
-	part2 = (codes[2] << 0x4) & 0xf0
+		key_4s_0 = decode_hash_4b(pair[0])
+		key_4s_1 = decode_hash_4b(pair[1])
 
-	r = (part0 | part1) & 0xffff
+		hash_4b_0 = get_hash_4b(key_4s_0)
+		hash_4b_1 = get_hash_4b(key_4s_1)
 
-	r = (r | part2) & 0xffff
-
-	r = (r | (codes[3] & 0xf))
-
-	return r
-
-def decode(h):
-
-	def a(b):
-		if b <= 0x9:
-			return b + 0x30
-
-		if b <= 0xF:
-			return b + 0x37
-
-		if b >= 0x0:
-			return b + 0x57
-
-		return b - 0xa9
-
-	p0 = a(h >> 12)
-
-	p1 = a((h & 0xfff) >> 8)
-
-	p2 = a((h & 0xff) >> 4)
-
-	p3 = a(h & 0xf)
-
-	result = [chr(p0), chr(p1), chr(p2), chr(p3)]
-
-	return "".join(result)
-	
-#Найдем все пары
-def find_pairs():
-	pairs = []
-
-	for i in range(0xFFFF+1):
-		pair = (i, i ^ 0xFEDC)
-		pairs.append(pair)
-
-	return pairs
-	
-pairs = find_pairs()
-
-#Найдем только правильные
-for pair in pairs:
-	p0_s = decode(pair[0])
-	p1_s = decode(pair[1])
-
-	p0_b = encode(p0_s)
-	p1_b = encode(p1_s)
-	
-	#Я не уверен в функции декодирования, поэтому этот шаг необходим
-	if p0_b == pair[0] and p1_b == pair[1]:
-		print(p0_s, p1_s)
+		if hash_4b_0 == pair[0] and hash_4b_1 == pair[1]:
+			return key_4s_0, key_4s_1
 
 ```
 
@@ -861,6 +785,7 @@ d3 - сумма байтов почты
 ```python
 def get_second_half(email):
 
+	from collections import deque
 	from random import randint
 
 	def get_koeff():
@@ -872,21 +797,39 @@ def get_second_half(email):
 	def get_pairs(k1, k2):
 		pairs = []
 
-		for a in range(0xFFFF+1):
-			pair = (a, (a^k1)^k2)
+		for a in range(0xFFFF + 1):
+			pair = (a, (a ^ k1) ^ k2)
 			pairs.append(pair)
 
-		return pairs
+		pairs = deque(pairs)
+		pairs.rotate(randint(0, 0xFFFF))
+
+		return list(pairs)
 
 	k1, k2 = get_koeff()
 
 	pairs = get_pairs(k1, k2)
 
-	pair = pairs[randint(0, len(pairs))]
+	for pair in pairs:
 
-	p0 = hex(pair[0])[2:]
-	p1 = hex(pair[1])[2:]
+		key_4s_0 = decode_hash_4b(pair[0])
+		key_4s_1 = decode_hash_4b(pair[1])
 
-	return p0 + p1
+		hash_4b_0 = get_hash_4b(key_4s_0)
+		hash_4b_1 = get_hash_4b(key_4s_1)
 
+		if hash_4b_0 == pair[0] and hash_4b_1 == pair[1]:
+			return key_4s_0, key_4s_1
 ```
+
+# Кейген #
+
+```python
+def keygen(email):
+
+	first_half = get_first_half()
+	second_half = get_second_half(email)
+
+	return "".join(first_half) + "".join(second_half)
+```
+
