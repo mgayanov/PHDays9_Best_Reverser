@@ -106,7 +106,7 @@
 Рассмотрим блок сразу за проверкой:
 
 <p align="center">
-	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_8b.png">
+	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/check_key_8b_2b.png">
 </p>
 
 В этом блоке идет предварительная работа.
