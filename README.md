@@ -362,12 +362,12 @@ static main()
 	}
 	print(counter);
 }
+```
 `0x00001F92 subq.l 0x1,d4` - здесь определяется, что будет в `d4` непосредственно перед циклом.
 <p align="center">
 <img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/loc_1F90.png">
 </p>
 
-```
 
 Скрипт выведет в консоль, что цикл запустится 9 раз с количеством итераций: 17, 2, 2, 3, 4, 38, 10, 30, 4, 9
 
