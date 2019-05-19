@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # key_4s - четыре символа ключа
-def get_hash_4b(key_4s):
+def get_hash_2b(key_4s):
 	# Правило преобразования байта
 	def transform(b):
 
@@ -33,14 +33,14 @@ def get_hash_4b(key_4s):
 	part0 = (codes[0] & 0xff) << 0xc
 	part1 = (codes[1] << 0x8) & 0xf00
 	part2 = (codes[2] << 0x4) & 0xf0
-	hash_4b = (part0 | part1) & 0xffff
-	hash_4b = (hash_4b | part2) & 0xffff
-	hash_4b = (hash_4b | (codes[3] & 0xf))
+	hash_2b = (part0 | part1) & 0xffff
+	hash_2b = (hash_2b | part2) & 0xffff
+	hash_2b = (hash_2b | (codes[3] & 0xf))
 
-	return hash_4b
+	return hash_2b
 
 
-def decode_hash_4b(hash_4b):
+def decode_hash_4s(hash_2b):
 
 	# Правило преобразования байта
 	def transform(b):
@@ -52,11 +52,11 @@ def decode_hash_4b(hash_4b):
 			return b + 0x57
 		return b - 0xa9
 
-	# Нарезаем отдельные байты из переданого хэша и переводи
-	b0 = transform(hash_4b >> 12)
-	b1 = transform((hash_4b & 0xfff) >> 8)
-	b2 = transform((hash_4b & 0xff) >> 4)
-	b3 = transform(hash_4b & 0xf)
+	# Нарезаем по 4 бита из переданого хэша и переводим
+	b0 = transform(hash_2b >> 12)
+	b1 = transform((hash_2b & 0xfff) >> 8)
+	b2 = transform((hash_2b & 0xff) >> 4)
+	b3 = transform(hash_2b & 0xf)
 
 	# Склеиваем
 	key_4s = [chr(b0), chr(b1), chr(b2), chr(b3)]
@@ -108,7 +108,7 @@ def sub_E3E(prev_sub_E3E_result, d2, d2_storage):
 	return prev_sub_E3E_result ^ some
 
 
-def finish_hash(hash_4b):
+def finish_hash(hash_2b):
 
 	# Правило преобразования хэша
 	def transform(hash_4b):
@@ -137,7 +137,7 @@ def finish_hash(hash_4b):
 		for _ in range(c[0]):
 			d0 = next(sub_5EC)
 
-			d1 = hash_4b & 0xff
+			d1 = hash_2b & 0xff
 			d2 = d0 ^ d1
 
 			curr_sub_E3E_result = sub_E3E(prev_sub_E3E_result, d2, d2_storage)
@@ -152,7 +152,7 @@ def finish_hash(hash_4b):
 			curr_sub_E3E_result = sub_E3E(prev_sub_E3E_result, d2, d2_storage)
 			prev_sub_E3E_result = curr_sub_E3E_result
 
-		hash_4b = transform(hash_4b)
+		hash_2b = transform(hash_2b)
 
 	return curr_sub_E3E_result
 
@@ -160,12 +160,12 @@ def find_CB4C():
 
 	result = []
 
-	for hash_4b in range(0xFFFF+1):
+	for hash_2b in range(0xFFFF+1):
 
-		final_hash = finish_hash(hash_4b)
+		final_hash = finish_hash(hash_2b)
 
 		if final_hash == 0xCB4C:
-			result.append(hash_4b)
+			result.append(hash_2b)
 
 	return result
 
@@ -192,13 +192,13 @@ def get_first_half():
 
 	for pair in pairs:
 
-		key_4s_0 = decode_hash_4b(pair[0])
-		key_4s_1 = decode_hash_4b(pair[1])
+		key_4s_0 = decode_hash_4s(pair[0])
+		key_4s_1 = decode_hash_4s(pair[1])
 
-		hash_4b_0 = get_hash_4b(key_4s_0)
-		hash_4b_1 = get_hash_4b(key_4s_1)
+		hash_2b_0 = get_hash_2b(key_4s_0)
+		hash_2b_1 = get_hash_2b(key_4s_1)
 
-		if hash_4b_0 == pair[0] and hash_4b_1 == pair[1]:
+		if hash_2b_0 == pair[0] and hash_2b_1 == pair[1]:
 			return key_4s_0, key_4s_1
 
 
@@ -231,13 +231,13 @@ def get_second_half(email):
 
 	for pair in pairs:
 
-		key_4s_0 = decode_hash_4b(pair[0])
-		key_4s_1 = decode_hash_4b(pair[1])
+		key_4s_0 = decode_hash_4s(pair[0])
+		key_4s_1 = decode_hash_4s(pair[1])
 
-		hash_4b_0 = get_hash_4b(key_4s_0)
-		hash_4b_1 = get_hash_4b(key_4s_1)
+		hash_2b_0 = get_hash_2b(key_4s_0)
+		hash_2b_1 = get_hash_2b(key_4s_1)
 
-		if hash_4b_0 == pair[0] and hash_4b_1 == pair[1]:
+		if hash_2b_0 == pair[0] and hash_2b_1 == pair[1]:
 			return key_4s_0, key_4s_1
 
 
