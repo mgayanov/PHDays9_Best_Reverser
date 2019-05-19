@@ -15,7 +15,7 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_key.png">
 </p>
 
-Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG создал я.
+(Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG переименовал я)
 
 
 Поставим брейк на чтение адреса `0x0000FDFA` - выясним, кто работает с сообщением "Wrong length! Try again…".
@@ -70,7 +70,6 @@
 </p>
 
 Мы погружаемся все глубже и глубже, и пришло время найти схему проверки ключа.
-Это будет еще более глубокое погружение.
 
 # Схема проверки ключа #
 
@@ -94,7 +93,7 @@
 
 Самое важное, что о ней нужно сказать, - на вход подается адрес, и работа идет над 4-мя байтами от этого адреса.
 То есть подали на вход первый байт ключа, а функция будет работать с 1,2,3,4-ым.
-Результат пишется в регистр d0.
+Результат пишется в регистр `d0`.
 
 Итак, функция get_hash_4b:
 
@@ -137,20 +136,7 @@ def get_hash_4b(key_4s):
 	hash_4b = (hash_4b | (codes[3] & 0xf))
 
 	return hash_4b
-	
->>> first_hash = get_hash_4b("ABCD")
->>> hex(first_hash)
-0xabcd
-
->>> second_hash = get_hash_4b("EFGH")
->>> hex(second_hash)
-0xef01
-
 ```
-
-Проверим.
-Нас интересует состояние регистра `d0` после выполнения функции.
-Ставим брейки на `0x000017FE`, `0x00001808`, ключ ABCDEFGHIJKLMNOP.
 
 Сразу напишем функцию декодирования хэша:
 
@@ -187,12 +173,28 @@ def decode_hash_4b(hash_4b):
 key_4s == decode_hash_4b(get_hash_4b(key_4s))
 ```
 
+Проверим работу `get_hash_4b`.
+Нас интересует состояние регистра `d0` после выполнения функции.
+Ставим брейки на `0x000017FE`, `0x00001808`, ключ `ABCDEFGHIJKLMNOP`.
+
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/first_key_hash.png">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/second_key_hash.png">
 </p>
 
-В регистр `d0` заносятся значения `0xabcd`, `0xef01`, проверка пройдена.
+В регистр `d0` заносятся значения `0xabcd`, `0xef01`.
+А что выдаст `get_hash_4b`?
+
+```python
+>>> first_hash = get_hash_4b("ABCD")
+>>> hex(first_hash)
+0xabcd
+
+>>> second_hash = get_hash_4b("EFGH")
+>>> hex(second_hash)
+0xef01
+```
+Проверка пройдена.
 
 Далее производится xor `eor.w d0, d5`, результат заносится в `d5`:
 
@@ -206,7 +208,7 @@ key_4s == decode_hash_4b(get_hash_4b(key_4s))
 
 ## Куда уплывает первый хэш ##
 
-Нам никак не пройти дальше, если мы не узнаем как программа работает с первым хэшем.
+Нам никак не пройти дальше, если мы не узнаем как программа работает с хэшем.
 Наверняка он перемещается из `d5` в память, т.к. регистр пригодится где-нибудь еще.
 Отыскать такое событие мы можем через трассировку(наблюдая за `d5`), но не ручную, а автоматическую.
 Поможет такой скрипт:
@@ -223,6 +225,7 @@ static main()
 		StepOver();
 		GetDebuggerEvent(WFNE_SUSP, -1);
 		d5_val = GetRegValue("d5");
+		// Ловим факт изменения d5
 		if (d5_val != 0xFFFF44CC){
 			break;
 		}
