@@ -30,7 +30,7 @@
 
 # Осматриваемся #
 
-Программа принимает не всякий ключ: ключ обязательно должен быть 16 символов.
+Программа принимает не всякий ключ: нужно заполнить поле целиком, это 16 символов.
 Если ключ короче, то вы увидите сообщение: "Wrong length! Try again…"
 
 Попробуем найти эту строчку в программе, для чего воспользуемся бинарным поиском(Alt-B).
@@ -43,7 +43,7 @@
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/wrong_key.png">
 </p>
 
-(Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG переименовал я)
+(Ярлыки WRONG_LENGTH_MSG, YOU_ARE_THE_BEST_MSG и WRONG_KEY_MSG поставил я)
 
 
 Поставим брейк на чтение адреса `0x0000FDFA` - выясним, кто работает с сообщением "Wrong length! Try again…".
