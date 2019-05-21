@@ -712,6 +712,7 @@ def finish_hash(hash_2b):
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/24a6.png">
 </p>
 7. Теперь проверям нашу функцию `finish_hash(hash_2b)`:
+
 ```python
 >>> r = finish_hash(0x44CC)
 >>> print(hex(r))
