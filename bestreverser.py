@@ -39,7 +39,6 @@ def get_hash_2b(key_4s):
 
 	return hash_2b
 
-
 def decode_hash_4s(hash_2b):
 
 	# Правило преобразования байта
@@ -52,7 +51,7 @@ def decode_hash_4s(hash_2b):
 			return b + 0x57
 		return b - 0xa9
 
-	# Нарезаем по 4 бита из переданого хэша и переводим
+	# Нарезаем отдельные байты из переданого хэша и переводи
 	b0 = transform(hash_2b >> 12)
 	b1 = transform((hash_2b & 0xfff) >> 8)
 	b2 = transform((hash_2b & 0xff) >> 4)
@@ -63,7 +62,6 @@ def decode_hash_4s(hash_2b):
 	key_4s = "".join(key_4s)
 
 	return key_4s
-
 
 def sub_5EC_gen():
 	dump = [0x92, 0x8A, 0xDC, 0xDC, 0x94, 0x3B, 0xE4, 0xE4,
@@ -107,14 +105,13 @@ def sub_E3E(prev_sub_E3E_result, d2, d2_storage):
 
 	return prev_sub_E3E_result ^ some
 
-
 def finish_hash(hash_2b):
 
 	# Правило преобразования хэша
-	def transform(hash_4b):
-		new = hash_4b >> 1
+	def transform(hash_2b):
+		new = hash_2b >> 1
 
-		if hash_4b & 0b1 != 0:
+		if hash_2b & 0b1 != 0:
 			new = new | 0x8000
 
 		return new
@@ -161,14 +158,11 @@ def find_CB4C():
 	result = []
 
 	for hash_2b in range(0xFFFF+1):
-
 		final_hash = finish_hash(hash_2b)
-
 		if final_hash == 0xCB4C:
 			result.append(hash_2b)
 
 	return result
-
 
 def get_first_half():
 
@@ -200,7 +194,6 @@ def get_first_half():
 
 		if hash_2b_0 == pair[0] and hash_2b_1 == pair[1]:
 			return key_4s_0, key_4s_1
-
 
 def get_second_half(email):
 
@@ -239,7 +232,6 @@ def get_second_half(email):
 
 		if hash_2b_0 == pair[0] and hash_2b_1 == pair[1]:
 			return key_4s_0, key_4s_1
-
 
 def keygen(email):
 
