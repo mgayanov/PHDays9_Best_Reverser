@@ -205,7 +205,7 @@ key_4s == decode_hash_4s(get_hash_2b(key_4s))
 
 Проверим работу `get_hash_2b`.
 Нас интересует состояние регистра `d0` после выполнения функции.
-Ставим брейки на `0x000017FE`, `0x00001808`, ключ `ABCDEFGHIJKLMNOP`.
+Ставим брейки на `0x000017FE`, `0x00001808`, ключ вводим `ABCDEFGHIJKLMNOP`.
 
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/first_key_hash.png">
@@ -273,6 +273,8 @@ static main()
 Скрипт остановится на инструкции `0x00001C94 move.b (a0, a1.l), d5`, но к этому моменту `d5` уже очищен.
 Однако мы видим, что значение из `d5` перемещается инструкцией `0x00001C56 move.w d5,a6`:
 оно пишется в память по адресу `0x00FF0D46`(2 байта).
+
+**Запомним: хэш хранится по адресу `0x00FF0D46`.**
 <p align="center">
 	<img src="https://github.com/mgayanov/PHDays9_Best_Reverser/blob/master/img/prehash_transfer_to_0d46.png">
 </p>
