@@ -6,6 +6,9 @@
 
 Решаем задание с конкурса [Best Reverser](https://www.phdays.com/ru/program/contests/best-reverser/).
 
+
+[Habr версия](https://habr.com/ru/post/453194/)
+
 Инструменты:
 * IDA Pro 6.8
 * [Плагин smd_ida_tools](https://github.com/lab313ru/smd_ida_tools)
